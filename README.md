@@ -6,5 +6,5 @@ To run the app:
 
 ```shell
 $ npm install
-$ npm run start
+$ node app.js
 ```

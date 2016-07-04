@@ -8,7 +8,6 @@
  */
 var sinon = (function () { // eslint-disable-line no-unused-vars
     "use strict";
-
     var sinonModule;
     var isNode = typeof module !== "undefined" && module.exports && typeof require === "function";
     var isAMD = typeof define === "function" && typeof define.amd === "object" && define.amd;

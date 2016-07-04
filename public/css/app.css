@@ -1,0 +1,99 @@
+
+html, body {
+    margin: 0px;
+    position: relative;
+    -webkit-overflow-scrolling: touch;
+    padding: 0px;
+}
+
+body {
+    color: #313435;
+    font-size: 10px;
+    line-height: 10px;
+    font-family: GillSans,"Gill Sans MT",Calibri,sans-serif;
+    overflow-x: hidden;
+    font-weight: lighter;
+
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+.buttonList {
+	border: 1px solid black;
+	width: 150px;
+	padding: 5px;
+}
+
+.channelButton {
+	border: 1px solid black;
+	width: 125px;
+}
+
+.categoryButton {
+	border: 1px solid black;
+	width: 125px;
+}
+
+.mostButton {
+	border: 1px solid black;
+	width: 125px;
+}
+
+.grid-contain {
+	border-radius: 2%;
+	padding: 5px;
+	width: 100%;
+	background: white;
+	max-height: 200px;
+	min-height: 160px;
+
+	transition: all 0.5s ease;
+}
+
+.backdrops {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: 10;
+	display: block;
+	background-color: white;
+	left: 0;
+	top: 0;
+}
+
+#wrapper {
+    padding: 5%;
+    padding-top: 100px;
+    background-color: whitesmoke;
+    padding-top: none;
+    padding-top: 75px;
+}
+
+
+
+
+.grid-sizer, .grid-item {
+    width: 12%;
+}
+
+.grid-item {
+	width: 99px;
+	display: table;
+	padding: 8px;
+	transition: all 0.5s ease;
+
+
+}
+
+.grid-image {
+	height: auto;
+	max-height: 200px;
+	min-height: 100px;
+	width: 100%;
+	position: relative;
+
+	max-width: 90px;
+}
