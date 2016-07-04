@@ -1,0 +1,27 @@
+{
+  "name": "eye-tv",
+  "version": "1.0.0",
+  "description": "ITV app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ksmike/Eye-TV.git"
+  },
+  "author": "Michael Copeland",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ksmike/Eye-TV/issues"
+  },
+  "homepage": "https://github.com/Ksmike/Eye-TV#readme",
+  "dependencies": {
+    "chai": "^3.5.0",
+    "express": "^4.14.0",
+    "mocha": "^2.5.3",
+    "require": "^2.4.20",
+    "sinon": "^1.17.4",
+    "supertest": "^1.2.0"
+  }
+}
