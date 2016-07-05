@@ -6,7 +6,7 @@ It can list an array of channels, categories, or most popular shows.
 
 ## Setup
 
-To run the app:
+To run the app, inside the src directory run these commands:
 
 ```shell
 
