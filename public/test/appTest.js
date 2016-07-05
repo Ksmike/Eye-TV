@@ -46,18 +46,17 @@ describe('EyeTV', function () {
 
 		it('can Ajax ITV', function() {
 
-			xhr = sinon.useFakeXMLHttpRequest();
-			requests = [];
+			// xhr = sinon.useFakeXMLHttpRequest();
+			// requests = [];
 
-			xhr.onCreate = function (xhr) {
-			 requests.push(xhr);
-			};
+			// xhr.onCreate = function (xhr) {
+			//  requests.push(xhr);
+			// };
 
 			listInfoStub = sinon.stub(ITV, 'listInfo');
 
 			ITV.url = ['http://fetd.prod.cps.awseuwest1.itvcloud.zone/platform/itvonline/samsung/channels?broadcaster=ITV'];
 			ITV.header = ['application/vnd.itv.default.channel.v1+hal+json; charset=UTF-8'];
-
 
 			var evt = {
 				target: {
@@ -69,14 +68,16 @@ describe('EyeTV', function () {
 
 			ITV.ajaxITVFeed(evt);
 
+			// console.log('something: ', something);
+
 			expect(listInfoStub).to.have.been.calledOnce;
-			xhr.restore();
+			// xhr.restore();
 
 		});
 	});
 
 	describe('generateTemplate', function () {
-		var data, addImageStub, newTemplate, addTitleStub, id;
+		var data, addImageStub, newTemplate, addTitleStub, addURLStub, id;
 
 		it('can generateTemplate', function() {
 
@@ -86,9 +87,19 @@ describe('EyeTV', function () {
 				_links: {
 					primaryImage: {
 						href: 'http://google.co.uk/'
+					},
+					productions: {
+						href: 'http://newLink.com/'
 					}
 				}
 			};
+
+			addURLStub = sinon.stub(ITV, 'addURL', function (data, id) {
+				var urlItem = document.createElement('div');
+				urlItem.dataset.url = data._links.productions.href;
+
+				return urlItem;
+			});
 
 			addImageStub = sinon.stub(ITV, 'addImage', function (data, id) {
 				var imageItem = document.createElement('img');
@@ -103,15 +114,14 @@ describe('EyeTV', function () {
 			});
 
 			newTemplate = ITV.generateTemplate(data, id);
-
 			expect(newTemplate.className).to.eql('grid-item');
 
-			expect(newTemplate.children[0].className).to.eql('grid-contain');
+			expect(newTemplate.children[0].dataset.url).to.eql('http://newLink.com/');
 
-			expect(newTemplate.children[0].children[0].className).to.eql('grid-image');
-			expect(newTemplate.children[0].children[0].src).to.eql('http://google.co.uk/');
-			expect(newTemplate.children[0].children[1].className).to.eql('item-title');
-			expect(newTemplate.children[0].children[1].innerHTML).to.eql('ITV');
+			expect(newTemplate.children[0].children[0].children[0].className).to.eql('grid-image');
+			expect(newTemplate.children[0].children[0].children[0].src).to.eql('http://google.co.uk/');
+			expect(newTemplate.children[0].children[0].children[1].className).to.eql('item-title');
+			expect(newTemplate.children[0].children[0].children[1].innerHTML).to.eql('ITV');
 
 			expect(addImageStub).to.have.been.calledOnce;
 			expect(addTitleStub).to.have.been.calledOnce;
@@ -151,10 +161,68 @@ describe('EyeTV', function () {
 		});
 	});
 
+	describe('addURL', function () {
+		var newURLItem, data;
+
+		afterEach(function () {
+
+			data = {};
+		});
+
+		it('can add url to item', function () {
+			data = {
+				channel: 'ITV',
+				_links: {
+					productions: {
+						href: 'http://newLink.com/'
+					}
+				}
+			};
+
+			newURLItem = ITV.addURL(data, 0);
+
+			// expect(newURLItem.dataset.url).to.be.equal('http://newLink.com/');
+		});
+	});
+
+	describe('addTitle', function () {
+		var newItemTitle, data;
+
+		afterEach(function () {
+
+			data = {};
+		});
+
+		it('can add a title to item', function () {
+			data = {
+				programmeTitle: 'ITV'
+			};
+			newItemTitle = ITV.addTitle(data, 2);
+
+			expect(newItemTitle.innerHTML).to.equal('ITV');
+		});
+	});
+
+	describe('addImage', function () {
+		var newItemImage, data;
+
+		it('can add a title to item', function () {
+			data = {
+				_links: {
+					image: {
+						href: 'http://google.co.uk/'
+					}
+				}
+			};
+
+			newItemImage = ITV.addImage(data, 2);
+			// expect(newItemImage);
+		});
+	});
+
 	describe('eventListeners', function () {
-		var dummyChannelButton,
-			dummyCategoryButton,
-			dummyPopularButton;
+		var dummyChannelButton, dummyCategoryButton,
+			ajaxITVFeedStub, dummyPopularButton;
 
 		beforeEach(function () {
 			dummyChannelButton = document.createElement('div');
@@ -187,8 +255,13 @@ describe('EyeTV', function () {
 		});
 
 		it('can trigger Event on click', function () {
+			var newChannelButton = document.querySelector('.channelButton'),
+			e = {
+				target: newChannelButton
+			};
+			ajaxITVFeedStub = sinon.stub(ITV, 'ajaxITVFeed');
 
-
+			expect(ajaxITVFeedStub).to.have.been.calledOnce;
 		});
 
 	});

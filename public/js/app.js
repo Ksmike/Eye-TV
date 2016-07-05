@@ -81,10 +81,12 @@
 	generateTemplate: function (data, id) {
 		var	gridItem = document.createElement('li'),
 			gridContainer = document.createElement('div'),
-			gridImage, gridName;
+			gridImage, gridName, gridLink;
 
 		gridItem.classList.add('grid-item');
 		gridContainer.classList.add('grid-contain');
+
+		gridLink = this.addURL(data, id);
 
 		gridImage = this.addImage(data, id);
 		gridImage.classList.add('grid-image');
@@ -96,9 +98,23 @@
 		if (gridImage.src) {
 			gridContainer.appendChild(gridImage);
 		}
+
+		gridItem.appendChild(gridLink);
+		gridLink.appendChild(gridContainer);
 		gridContainer.appendChild(gridName);
 
 		return gridItem;
+	},
+	addURL:function (data, id) {
+		var itemLink = document.createElement('div');
+
+		if (id === '0' || id === '1') {
+			itemLink.dataset.url = data._links.productions.href;
+		} else {
+			return itemLink;
+		}
+
+		return itemLink;
 	},
 	addTitle: function (data, id) {
 
@@ -116,7 +132,7 @@
 	addImage: function (data, id) {
 
 		var gridImage = document.createElement('img');
-
+		console.log('data: ', data);
 		if (id === '0') {
 			gridImage.src = data._links.primaryImage.href;
 		} else if (id === '2') {
