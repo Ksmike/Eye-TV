@@ -175,7 +175,7 @@
 		channelButton.dataset.id = '0';
 
 		categoryButton.classList.add('categoryButton');
-		categoryButton.innerHTML = 'Pick a category';
+		categoryButton.innerHTML = 'Pick a Category';
 		categoryButton.dataset.id = '1';
 
 		mostPopularButton.classList.add('mostButton');

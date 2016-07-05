@@ -68,8 +68,6 @@ describe('EyeTV', function () {
 
 			ITV.ajaxITVFeed(evt);
 
-			// console.log('something: ', something);
-
 			expect(listInfoStub).to.have.been.calledOnce;
 			listInfoStub.restore();
 
@@ -161,7 +159,7 @@ describe('EyeTV', function () {
 			expect(buttonLists.children[0].children[2].className).to.eql('mostButton');
 
 			expect(buttonLists.children[0].children[0].innerHTML).to.eql('Pick a Channel');
-			expect(buttonLists.children[0].children[1].innerHTML).to.eql('Pick a category');
+			expect(buttonLists.children[0].children[1].innerHTML).to.eql('Pick a Category');
 			expect(buttonLists.children[0].children[2].innerHTML).to.eql('Most Popular');
 		});
 	});

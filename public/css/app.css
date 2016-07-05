@@ -21,6 +21,10 @@ a {
 	color: black;
 }
 
+#wrapper h1 {
+	text-align: center;
+}
+
 .buttonList {
 	border: 1px solid black;
 	width: 150px;
