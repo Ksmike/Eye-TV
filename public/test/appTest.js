@@ -71,7 +71,7 @@ describe('EyeTV', function () {
 			// console.log('something: ', something);
 
 			expect(listInfoStub).to.have.been.calledOnce;
-			// xhr.restore();
+			listInfoStub.restore();
 
 		});
 	});
@@ -125,6 +125,10 @@ describe('EyeTV', function () {
 
 			expect(addImageStub).to.have.been.calledOnce;
 			expect(addTitleStub).to.have.been.calledOnce;
+
+			addImageStub.restore();
+			addTitleStub.restore();
+			addURLStub.restore();
 
 
 		});
@@ -211,16 +215,41 @@ describe('EyeTV', function () {
 	});
 
 	describe('renderMostPop', function () {
-
+		var e;
 		it('can ajax Most Pop', function () {
-			ITV.renderMostPop();
+			e = {
+				target: {
+					parentElement: {
+						parentElement: {
+							dataset: {
+								url: 'http://fetd.prod.cps.awseuwest1.itvcloud.zone/platform/itvonline/samsung/productions?grouping=popular&size=15&broadcaster=ITV'
+							}
+						}
+					}
+				}
+			};
+
+			ITV.renderMostPop(e);
 		});
 	});
 
 	describe('listNewItems', function () {
+		var res, generateTemplateStub;
 
-		it('can ajax new ', function () {
-			ITV.listNewItems();
+		res = {
+			_embedded: {
+				productions: [{}]
+			}
+		};
+
+		generateTemplateStub = sinon.stub(ITV, 'generateTemplate');
+
+		it('can ajax new Items', function () {
+			ITV.listNewItems(res);
+
+			expect(generateTemplateStub).to.have.been.calledOnce;
+
+			generateTemplateStub.restore();
 		});
 	});
 
@@ -266,6 +295,8 @@ describe('EyeTV', function () {
 			ajaxITVFeedStub = sinon.stub(ITV, 'ajaxITVFeed');
 
 			expect(ajaxITVFeedStub).to.have.been.calledOnce;
+
+			ajaxITVFeedStub.restore();
 		});
 
 	});
