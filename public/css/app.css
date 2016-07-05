@@ -66,15 +66,12 @@ a {
 
 .mostButton {
 	width: 125px;
-	cursor: pointer;
 	margin: auto;
 	margin-top: 5px;
 	margin-bottom: 5px;
 	padding: 5px;
-	box-shadow: 0px 0px 1px 1px limegreen;
+	box-shadow: 0px 0px 1px 1px #00BC96;
 	transition: all 0.5s ease;
-
-
 }
 
 .mostButton:hover {
@@ -88,12 +85,31 @@ a {
 
 .category-container {
 	display: inline-flex;
+	background-color: white;
+	padding-left: 25px;
+}
+
+.category-container .grid-item {
+	box-shadow: 0px 0px 1px 1px #FFAA00;
+	transition: all 0.5s ease;
+	background-color: white;
+
+
+}
+
+.category-container .grid-item:hover {
+	transition: all 0.5s ease;
+	transform: scale(1.10);
 }
 
 .most-container {
 	display: -webkit-box;
 	overflow-x: scroll;
+	box-shadow: 00BC96
+}
 
+.most-container .grid-contain:hover {
+	box-shadow: 1px 1px 1px 1px #00BC96;
 }
 
 .new-container {
@@ -102,11 +118,13 @@ a {
 	width: 96%;
 }
 
+.new-container .grid-contain:hover {
+	box-shadow: 1px 1px 1px 1px #19BEC8;
+}
 .grid-contain {
 	border-radius: 2%;
 	padding: 5px;
 	width: 100%;
-	background: white;
 	max-height: 200px;
 
 	transition: all 0.5s ease;
