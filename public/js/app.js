@@ -12,16 +12,8 @@
 	EyeTV.prototype = {
 
 	init: function() {
-		// var ajaxData =  this.ajaxITVFeed();
-		// console.log('ajaxData: ', ajaxData);
-
 		this.generateButtons();
 		this.eventListeners();
-
-
-		// for (var i = 0; i < [].length; i++) {
-		// 	this.generateTemplate(ajaxData[i]);
-		// }
 	},
 	urls: [
 		"http://fetd.prod.cps.awseuwest1.itvcloud.zone/platform/itvonline/samsung/channels?broadcaster=ITV",
@@ -107,12 +99,9 @@
 		return gridItem;
 	},
 	renderMostPop: function (evt) {
-		console.log('evt: ', evt.target.parentElement.parentElement);
-
 		var xhr = new XMLHttpRequest(),
 	    	responceJSON,
 	    	url = evt.target.parentElement.parentElement.dataset.url;
-
 		xhr.open("GET", url, true);
 		xhr.setRequestHeader("Accept", this.headers[2]);
 		xhr.send();
@@ -160,7 +149,6 @@
 	addImage: function (data, id) {
 
 		var gridImage = document.createElement('img');
-		console.log('data: ', data);
 		if (id === '0') {
 			gridImage.src = data._links.primaryImage.href;
 		} else if (id === '2') {

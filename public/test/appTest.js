@@ -125,6 +125,7 @@ describe('EyeTV', function () {
 
 			expect(addImageStub).to.have.been.calledOnce;
 			expect(addTitleStub).to.have.been.calledOnce;
+			expect(addURLStub).to.have.been.calledOnce;
 
 			addImageStub.restore();
 			addTitleStub.restore();
@@ -215,7 +216,8 @@ describe('EyeTV', function () {
 	});
 
 	describe('renderMostPop', function () {
-		var e;
+		var e, listNewItemsStub;
+
 		it('can ajax Most Pop', function () {
 			e = {
 				target: {
@@ -229,12 +231,24 @@ describe('EyeTV', function () {
 				}
 			};
 
+			listNewItemsStub = sinon.stub(ITV, 'listNewItems');
+
 			ITV.renderMostPop(e);
+
+			expect(listNewItemsStub).to.have.been.calledOnce;
+
+			listNewItemsStub.restore();
+
 		});
 	});
 
 	describe('listNewItems', function () {
-		var res, generateTemplateStub;
+		var res, dummyElement;
+
+		dummyElement = document.createElement('div');
+		dummyElement.className = 'new-container';
+
+		document.body.appendChild(dummyElement);
 
 		res = {
 			_embedded: {
@@ -242,14 +256,19 @@ describe('EyeTV', function () {
 			}
 		};
 
-		generateTemplateStub = sinon.stub(ITV, 'generateTemplate');
+		// generateTemplateStub = sinon.stub(ITV, 'generateTemplate');
+
+		afterEach(function () {
+			document.body.removeChild(dummyElement);
+
+		});
 
 		it('can ajax new Items', function () {
 			ITV.listNewItems(res);
 
-			expect(generateTemplateStub).to.have.been.calledOnce;
+			// expect(generateTemplateStub).to.have.been.calledOnce;
 
-			generateTemplateStub.restore();
+			// generateTemplateStub.restore();
 		});
 	});
 
