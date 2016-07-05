@@ -8,6 +8,6 @@ To run the app:
 
 $ npm install
 $ bower install
-$ node app.js
+$ npm run start
 
 ```
