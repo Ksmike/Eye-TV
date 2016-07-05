@@ -24,22 +24,52 @@ a {
 .buttonList {
 	border: 1px solid black;
 	width: 150px;
+	text-align: center;
+	margin: auto;
 	padding: 5px;
 }
 
 .channelButton {
 	border: 1px solid black;
 	width: 125px;
+	cursor: pointer;
+	margin: auto;
+	margin-top: 5px;
+	padding: 5px;
+
 }
 
 .categoryButton {
 	border: 1px solid black;
 	width: 125px;
+	cursor: pointer;
+	margin: auto;
+	margin-top: 5px;
+	padding: 5px;
+
 }
 
 .mostButton {
 	border: 1px solid black;
 	width: 125px;
+	cursor: pointer;
+	margin: auto;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	padding: 5px;
+
+}
+
+.channel-container {
+	display: inline-flex;
+}
+
+.category-container {
+	display: inline-flex;
+}
+
+.most-container {
+	display: inline-flex;
 }
 
 .grid-contain {
@@ -48,9 +78,12 @@ a {
 	width: 100%;
 	background: white;
 	max-height: 200px;
-	min-height: 160px;
 
 	transition: all 0.5s ease;
+}
+
+.item-title {
+	text-align: center;
 }
 
 .backdrops {
@@ -72,9 +105,6 @@ a {
     padding-top: 75px;
 }
 
-
-
-
 .grid-sizer, .grid-item {
     width: 12%;
 }
@@ -84,8 +114,6 @@ a {
 	display: table;
 	padding: 8px;
 	transition: all 0.5s ease;
-
-
 }
 
 .grid-image {

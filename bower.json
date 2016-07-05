@@ -1,0 +1,24 @@
+{
+  "name": "eye-tv",
+  "description": "ITV app",
+  "main": "app.js",
+  "authors": [
+    "Michael Copeland"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/Ksmike/Eye-TV",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "chai": "~3.5.0",
+    "mocha": "~2.5.3",
+    "sinon": "~1.17.4"
+  }
+}

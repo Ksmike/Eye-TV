@@ -12,12 +12,16 @@
 	EyeTV.prototype = {
 
 	init: function() {
-		var ajaxData =  this.ajaxITVFeed(0);
+		// var ajaxData =  this.ajaxITVFeed();
+		// console.log('ajaxData: ', ajaxData);
 
 		this.generateButtons();
-		for (var i = 0; i < [].length; i++) {
-			this.generateTemplate(ajaxData[i]);
-		}
+		this.addEventListener();
+
+
+		// for (var i = 0; i < [].length; i++) {
+		// 	this.generateTemplate(ajaxData[i]);
+		// }
 	},
 	urls: [
 		"http://fetd.prod.cps.awseuwest1.itvcloud.zone/platform/itvonline/samsung/channels?broadcaster=ITV",
@@ -25,49 +29,101 @@
 		"http://fetd.prod.cps.awseuwest1.itvcloud.zone/platform/itvonline/samsung/productions?grouping=popular&size=15&broadcaster=ITV"
 	],
 	headers: [
-		"charset=UTF-8, application/vnd.itv.default.channel.v1+hal+json; charset=UTF-8",
-		"charset=UTF-8, application/vnd.itv.default.category.v1+hal+json; charset=UTF-8",
-		"charset=UTF-8, application/vnd.itv.default.production.v2+hal+json; charset=UTF-8, application/vnd.itv.default.production.v1+hal+json; charset=UTF-8, application/vnd.itv.ctv.production.v1+hal+json; charset=UTF-8, application/vnd.itv.nowtv.production.v1+hal+json; charset=UTF-8, application/vnd.itv.hubsvc.production.fat.v2+hal+json; charset=UTF-8, application/vnd.itv.hubsvc.production.v3+hal+json; charset=UTF-8"
+		"application/vnd.itv.default.channel.v1+hal+json; charset=UTF-8",
+		"application/vnd.itv.default.category.v1+hal+json; charset=UTF-8",
+		"application/vnd.itv.default.production.v2+hal+json; charset=UTF-8, application/vnd.itv.default.production.v1+hal+json; charset=UTF-8, application/vnd.itv.ctv.production.v1+hal+json; charset=UTF-8, application/vnd.itv.nowtv.production.v1+hal+json; charset=UTF-8, application/vnd.itv.hubsvc.production.fat.v2+hal+json; charset=UTF-8, application/vnd.itv.hubsvc.production.v3+hal+json; charset=UTF-8"
 	],
-	ajaxITVFeed: function (index) {
-	    var xhr = new XMLHttpRequest();
-		xhr.open("GET", this.urls[index], true);
-		xhr.setRequestHeader("Accept", this.headers[index]);
+	ajaxITVFeed: function (evt) {
+	    var xhr = new XMLHttpRequest(),
+	    	responceJSON,
+	    	dataID = evt.target.dataset.id;
 
-		xhr.setRequestHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
-
-
+		xhr.open("GET", this.urls[dataID], true);
+		xhr.setRequestHeader("Accept", this.headers[dataID]);
 		xhr.send();
+		xhr.onload = function () {
+		    if (xhr.readyState === xhr.DONE) {
+		        if (xhr.status === 200) {
+		            responceJSON = JSON.parse(xhr.response);
+		            this.listInfo(responceJSON, dataID);
+		        }
+		    }
+		}.bind(this);
+	},
+	listInfo: function (res, id) {
+		console.log('res: ', res);
+		var trimData = res._embedded,
+			extention, cardItem;
+
+		if (id === '0') {
+			extention = res._embedded.channels;
+			for (var i = 0; i < extention.length; i++) {
+				cardItem = this.generateTemplate(extention[i], id);
+				document.querySelector('.channel-container').appendChild(cardItem);
+			}
+		} else if (id === '1') {
+			extention = res._embedded.categories;
+			for (var i = 0; i < extention.length; i++) {
+				cardItem = this.generateTemplate(extention[i], id);
+				document.querySelector('.category-container').appendChild(cardItem);
+			}
+		} else if (id === '2'){
+			extention = res._embedded.productions;
+			for (var i = 0; i < extention.length; i++) {
+				cardItem = this.generateTemplate(extention[i], id);
+				document.querySelector('.most-container').appendChild(cardItem);
+			}
+		} else {
+			return;
+		}
 
 	},
-	generateTemplate: function (data) {
-		var	gridItem = document.createElement('div'),
+	generateTemplate: function (data, id) {
+		var	gridItem = document.createElement('li'),
 			gridContainer = document.createElement('div'),
-			gridImage = document.createElement('img'),
-			gridName = document.createElement('div');
+			gridImage, gridName;
 
 		gridItem.classList.add('grid-item');
-		gridItem.dataset.id = data.id;
-
 		gridContainer.classList.add('grid-contain');
 
+		gridImage = this.addImage(data, id);
 		gridImage.classList.add('grid-image');
-		gridImage.src = data.image;
 
-		gridDesigner.classList.add('designer');
-		gridDesigner.innerHTML = data.designer;
-
-		gridName.classList.add('product-name');
-		gridName.innerHTML = data.name;
-
-		gridPrice.classList.add('price');
-		gridPrice.innerHTML = 'Buy now for - ' + data.price;
+		gridName = this.addTitle(data, id);
+		gridName.classList.add('item-title');
 
 		gridItem.appendChild(gridContainer);
-		gridContainer.appendChild(gridImage);
+		if (gridImage.src) {
+			gridContainer.appendChild(gridImage);
+		}
 		gridContainer.appendChild(gridName);
 
 		return gridItem;
+	},
+	addTitle: function (data, id) {
+
+		var gridName = document.createElement('div');
+
+		if (id === '0') {
+			gridName.innerHTML = data.channel;
+		} else if (id === '1') {
+			gridName.innerHTML = data.name;
+		} else {
+			gridName.innerHTML = data.programmeTitle;
+		}
+		return gridName;
+	},
+	addImage: function (data, id) {
+
+		var gridImage = document.createElement('img');
+
+		if (id === '0') {
+			gridImage.src = data._links.primaryImage.href;
+		} else if (id === '2') {
+			gridImage.src = data._links.image.href;
+		}
+
+		return gridImage;
 	},
 	generateButtons: function () {
 		var buttonContainer = document.createElement('div'),
@@ -79,12 +135,15 @@
 		buttonContainer.classList.add('buttonList');
 		channelButton.classList.add('channelButton');
 		channelButton.innerHTML = 'Pick a Channel';
+		channelButton.dataset.id = '0';
 
 		categoryButton.classList.add('categoryButton');
 		categoryButton.innerHTML = 'Pick a category';
+		categoryButton.dataset.id = '1';
 
 		mostPopularButton.classList.add('mostButton');
-		mostPopularButton.innerHTML = ('Most Popular')
+		mostPopularButton.innerHTML = ('Most Popular');
+		mostPopularButton.dataset.id = '2';
 
 		buttonContainer.appendChild(channelButton);
 		buttonContainer.appendChild(categoryButton);
@@ -92,8 +151,19 @@
 
 		pageWrapper.appendChild(buttonContainer);
 
+	},
+	addEventListener: function () {
+		var channelButtonListner,
+			categoryButtonListener,
+			mostPopularButtonListener;
 
+		channelButtonListner = document.querySelector('.channelButton');
+		categoryButtonListener = document.querySelector('.categoryButton');
+		mostPopularButtonListener = document.querySelector('.mostButton');
 
+		channelButtonListner.addEventListener('click', this.ajaxITVFeed.bind(this), false);
+		categoryButtonListener.addEventListener('click', this.ajaxITVFeed.bind(this), false);
+		mostPopularButtonListener.addEventListener('click', this.ajaxITVFeed.bind(this), false);
 	}
 };
 

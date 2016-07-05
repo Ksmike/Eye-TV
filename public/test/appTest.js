@@ -20,40 +20,104 @@ describe('EyeTV', function () {
 		ITV = new EyeTV();
 	});
 
-	describe('init', function () {
-		var ajaxITVFeedStub, generateTemplateStub;
+	it('is defined', function() {
+		expect(ITV).to.not.be.undefined;
+	});
 
-		it('is defined', function() {
-			expect(ITV).to.not.be.undefined;
-		});
+	describe('init', function () {
+		var addEventListenerStub, generateButtonsStub;
 
 		it('initialise', function() {
-			ajaxITVFeedStub = sinon.stub(ITV, 'ajaxITVFeed').returns(["pizza"]);
-			generateTemplateStub = sinon.stub(ITV, 'generateTemplate');
+			addEventListenerStub = sinon.stub(ITV, 'addEventListener').returns(["pizza"]);
+			generateButtonsStub = sinon.stub(ITV, 'generateButtons');
+
 			ITV.init();
 
-			expect(ajaxITVFeedStub)
+			expect(generateButtonsStub).to.have.been.calledOnce;
+			expect(addEventListenerStub).to.have.been.calledOnce;
 
-			expect(generateTemplateStub).to.have.been.calledOnce;
-			expect(ajaxITVFeedStub).to.have.been.calledOnce;
+			addEventListenerStub.restore();
+			generateButtonsStub.restore();
 		});
 	});
 
 	describe('ajaxITVFeed', function () {
-		var xhr;
-		beforeEach(function () {
-			console.log('sinon: ', sinon);
-			// xhr = sinon.useFakeXMLHttpRequest();
-		});
+		var xhr, requests, listInfoStub;
 
-		afterEach(function () {
-			// xhr.restore();
-		});
+		it('can Ajax ITV', function() {
 
-		it('is defined', function() {
-			ITV.ajaxITVFeed(0);
+			xhr = sinon.useFakeXMLHttpRequest();
+			requests = [];
+
+			xhr.onCreate = function (xhr) {
+			 requests.push(xhr);
+			};
+
+			listInfoStub = sinon.stub(ITV, 'listInfo');
+
+			ITV.url = ['http://fetd.prod.cps.awseuwest1.itvcloud.zone/platform/itvonline/samsung/channels?broadcaster=ITV'];
+			ITV.header = ['application/vnd.itv.default.channel.v1+hal+json; charset=UTF-8'];
+
+
+			var evt = {
+				target: {
+					dataset: {
+						id: 1
+					}
+				}
+			};
+
+			ITV.ajaxITVFeed(evt);
+
+			expect(listInfoStub).to.have.been.calledOnce;
+			xhr.restore();
+
 		});
 	});
+
+	describe('generateTemplate', function () {
+		var data, addImageStub, newTemplate, addTitleStub, id;
+
+		it('can generateTemplate', function() {
+
+			id = '0';
+			data = {
+				channel: 'ITV',
+				_links: {
+					primaryImage: {
+						href: 'http://google.co.uk/'
+					}
+				}
+			};
+
+			addImageStub = sinon.stub(ITV, 'addImage', function (data, id) {
+				var imageItem = document.createElement('img');
+				imageItem.src = data._links.primaryImage.href;
+
+				return imageItem;
+			});
+			addTitleStub = sinon.stub(ITV, 'addTitle', function (data, id) {
+				var titleItem = document.createElement('div');
+				titleItem.innerHTML = data.channel;
+				return titleItem;
+			});
+
+			newTemplate = ITV.generateTemplate(data, id);
+
+			expect(newTemplate.className).to.eql('grid-item');
+
+			expect(newTemplate.children[0].className).to.eql('grid-contain');
+
+			expect(newTemplate.children[0].children[0].className).to.eql('grid-image');
+			expect(newTemplate.children[0].children[0].src).to.eql('http://google.co.uk/');
+			expect(newTemplate.children[0].children[1].className).to.eql('item-title');
+			expect(newTemplate.children[0].children[1].innerHTML).to.eql('ITV');
+
+
+		});
+	});
+
+
 
 
 });
