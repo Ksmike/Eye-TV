@@ -50,7 +50,6 @@ describe('EyeTV', function () {
 			requests = [];
 
 			xhr.onCreate = function (req) {
-				console.log('req: ', req);
 				requests.push(req);
 			};
 			listInfoStub = sinon.stub(ITV, 'listInfo');
@@ -68,9 +67,7 @@ describe('EyeTV', function () {
 			};
 
 			ITV.ajaxITVFeed(evt);
-
-			expect(listInfoStub).to.have.been.calledOnce;
-
+			expect(requests[0].requestHeaders.Accept).to.be.equal('application/vnd.itv.default.category.v1+hal+json; charset=UTF-8');
 			xhr.restore();
 			listInfoStub.restore();
 
@@ -217,9 +214,18 @@ describe('EyeTV', function () {
 	});
 
 	describe('renderMostPop', function () {
-		var e, listNewItemsStub;
+		var e, listNewItemsStub, xhr, requests;
 
 		it('can ajax Most Pop', function () {
+
+			xhr = sinon.useFakeXMLHttpRequest();
+			requests = [];
+
+			xhr.onCreate = function (req) {
+				console.log('req: ', req);
+				requests.push(req);
+			};
+
 			e = {
 				target: {
 					parentElement: {
@@ -238,6 +244,7 @@ describe('EyeTV', function () {
 
 			expect(listNewItemsStub).to.have.been.calledOnce;
 
+			xhr.restore();
 			listNewItemsStub.restore();
 
 		});
@@ -319,7 +326,7 @@ describe('EyeTV', function () {
 			},
 			newEvent = new Event('click');
 
-			e.target.dispatchEvent(newEvent);
+			newChannelButton.dispatchEvent(newEvent);
 			ajaxITVFeedStub = sinon.stub(ITV, 'ajaxITVFeed');
 
 			expect(ajaxITVFeedStub).to.have.been.calledOnce;
