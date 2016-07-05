@@ -34,34 +34,52 @@ a {
 }
 
 .channelButton {
-	border: 1px solid black;
 	width: 125px;
 	cursor: pointer;
 	margin: auto;
 	margin-top: 5px;
 	padding: 5px;
+	box-shadow: 0px 0px 1px 1px #d20000;;
+	transition: all 0.5s ease;
 
+}
+
+.channelButton:hover {
+	transition: all 0.5s ease;
+	transform: scale(1.10);
 }
 
 .categoryButton {
-	border: 1px solid black;
 	width: 125px;
 	cursor: pointer;
 	margin: auto;
 	margin-top: 5px;
 	padding: 5px;
+	box-shadow: 0px 0px 1px 1px orange;
+	transition: all 0.5s ease;
+}
 
+.categoryButton:hover {
+	transition: all 0.5s ease;
+	transform: scale(1.10);
 }
 
 .mostButton {
-	border: 1px solid black;
 	width: 125px;
 	cursor: pointer;
 	margin: auto;
 	margin-top: 5px;
 	margin-bottom: 5px;
 	padding: 5px;
+	box-shadow: 0px 0px 1px 1px limegreen;
+	transition: all 0.5s ease;
 
+
+}
+
+.mostButton:hover {
+	transition: all 0.5s ease;
+	transform: scale(1.10);
 }
 
 .channel-container {
@@ -81,6 +99,7 @@ a {
 .new-container {
 	display: -webkit-box;
 	overflow-x: scroll;
+	width: 96%;
 }
 
 .grid-contain {

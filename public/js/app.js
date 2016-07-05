@@ -102,9 +102,11 @@
 		var xhr = new XMLHttpRequest(),
 	    	responceJSON,
 	    	url = evt.target.parentElement.parentElement.dataset.url;
+
 		xhr.open("GET", url, true);
 		xhr.setRequestHeader("Accept", this.headers[2]);
 		xhr.send();
+
 		xhr.onload = function () {
 		    if (xhr.readyState === xhr.DONE) {
 		        if (xhr.status === 200) {
