@@ -46,14 +46,15 @@ describe('EyeTV', function () {
 
 		it('can Ajax ITV', function() {
 
-			// xhr = sinon.useFakeXMLHttpRequest();
-			// requests = [];
+			xhr = sinon.useFakeXMLHttpRequest();
+			requests = [];
 
-			// xhr.onCreate = function (xhr) {
-			//  requests.push(xhr);
-			// };
-
+			xhr.onCreate = function (req) {
+				console.log('req: ', req);
+				requests.push(req);
+			};
 			listInfoStub = sinon.stub(ITV, 'listInfo');
+
 
 			ITV.url = ['http://fetd.prod.cps.awseuwest1.itvcloud.zone/platform/itvonline/samsung/channels?broadcaster=ITV'];
 			ITV.header = ['application/vnd.itv.default.channel.v1+hal+json; charset=UTF-8'];
@@ -313,7 +314,10 @@ describe('EyeTV', function () {
 			var newChannelButton = document.querySelector('.channelButton'),
 			e = {
 				target: newChannelButton
-			};
+			},
+			newEvent = new Event('click');
+
+			e.target.dispatchEvent(newEvent);
 			ajaxITVFeedStub = sinon.stub(ITV, 'ajaxITVFeed');
 
 			expect(ajaxITVFeedStub).to.have.been.calledOnce;
@@ -322,6 +326,4 @@ describe('EyeTV', function () {
 		});
 
 	});
-
-
 });
