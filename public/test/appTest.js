@@ -70,6 +70,8 @@ describe('EyeTV', function () {
 			ITV.ajaxITVFeed(evt);
 
 			expect(listInfoStub).to.have.been.calledOnce;
+
+			xhr.restore();
 			listInfoStub.restore();
 
 		});

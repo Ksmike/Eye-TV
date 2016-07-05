@@ -25,6 +25,4 @@ To run tests go to http://localhost:3000/test.html
 
 ##TO DO
 
-1 - sinon library doesn't seem to have been added properly and sinon.useFakeXMLHttpRequest is not functioing correctly;
-
-2- Sinon-chai was not function properly, but is now working, some failing tests as a result
+1 - Had issue with Fake XML server, added correct depenency, fixed it. Some tests broken, will fix asap.
