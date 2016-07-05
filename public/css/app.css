@@ -86,6 +86,10 @@ a {
 	text-align: center;
 }
 
+.data-url {
+	cursor: pointer;
+}
+
 .backdrops {
 	position: absolute;
 	width: 100%;

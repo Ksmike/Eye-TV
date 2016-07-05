@@ -162,15 +162,10 @@ describe('EyeTV', function () {
 	});
 
 	describe('addURL', function () {
-		var newURLItem, data;
-
-		afterEach(function () {
-
-			data = {};
-		});
+		var newURLItem, newData;
 
 		it('can add url to item', function () {
-			data = {
+			newData = {
 				channel: 'ITV',
 				_links: {
 					productions: {
@@ -179,35 +174,30 @@ describe('EyeTV', function () {
 				}
 			};
 
-			newURLItem = ITV.addURL(data, 0);
+			newURLItem = ITV.addURL(newData, 0);
 
 			// expect(newURLItem.dataset.url).to.be.equal('http://newLink.com/');
 		});
 	});
 
 	describe('addTitle', function () {
-		var newItemTitle, data;
-
-		afterEach(function () {
-
-			data = {};
-		});
+		var newItemTitle, dummyData;
 
 		it('can add a title to item', function () {
-			data = {
+			dummyData = {
 				programmeTitle: 'ITV'
 			};
-			newItemTitle = ITV.addTitle(data, 2);
+			newItemTitle = ITV.addTitle(dummyData, 2);
 
 			expect(newItemTitle.innerHTML).to.equal('ITV');
 		});
 	});
 
 	describe('addImage', function () {
-		var newItemImage, data;
+		var newItemImage, someData;
 
-		it('can add a title to item', function () {
-			data = {
+		it('can add image to item', function () {
+			someData = {
 				_links: {
 					image: {
 						href: 'http://google.co.uk/'
@@ -215,8 +205,22 @@ describe('EyeTV', function () {
 				}
 			};
 
-			newItemImage = ITV.addImage(data, 2);
+			newItemImage = ITV.addImage(someData, 2);
 			// expect(newItemImage);
+		});
+	});
+
+	describe('renderMostPop', function () {
+
+		it('can ajax Most Pop', function () {
+			ITV.renderMostPop();
+		});
+	});
+
+	describe('listNewItems', function () {
+
+		it('can ajax new ', function () {
+			ITV.listNewItems();
 		});
 	});
 

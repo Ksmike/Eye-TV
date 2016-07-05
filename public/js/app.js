@@ -87,6 +87,7 @@
 		gridContainer.classList.add('grid-contain');
 
 		gridLink = this.addURL(data, id);
+		gridLink.addEventListener('click', this.renderMostPop.bind(this), false);
 
 		gridImage = this.addImage(data, id);
 		gridImage.classList.add('grid-image');
@@ -105,9 +106,36 @@
 
 		return gridItem;
 	},
+	renderMostPop: function (evt) {
+		console.log('evt: ', evt.target.parentElement.parentElement);
+
+		var xhr = new XMLHttpRequest(),
+	    	responceJSON,
+	    	url = evt.target.parentElement.parentElement.dataset.url;
+
+		xhr.open("GET", url, true);
+		xhr.setRequestHeader("Accept", this.headers[2]);
+		xhr.send();
+		xhr.onload = function () {
+		    if (xhr.readyState === xhr.DONE) {
+		        if (xhr.status === 200) {
+		            responceJSON = JSON.parse(xhr.response);
+		            this.listNewItems(responceJSON);
+		        }
+		    }
+		}.bind(this);
+	},
+	listNewItems: function (res) {
+		var trimmed = res._embedded, cardItem;
+
+		for (var i = 0; i < trimmed.productions.length; i++) {
+			cardItem = this.generateTemplate(trimmed.productions[i], 2);
+			document.querySelector('.new-container').appendChild(cardItem);
+		}
+	},
 	addURL:function (data, id) {
 		var itemLink = document.createElement('div');
-
+		itemLink.classList.add('data-url');
 		if (id === '0' || id === '1') {
 			itemLink.dataset.url = data._links.productions.href;
 		} else {
