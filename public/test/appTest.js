@@ -181,7 +181,7 @@ describe('EyeTV', function () {
 
 			newURLItem = ITV.addURL(newData, 0);
 
-			// expect(newURLItem.dataset.url).to.be.equal('http://newLink.com/');
+			expect(newURLItem.className).to.be.equal('data-url');
 		});
 	});
 
@@ -211,7 +211,7 @@ describe('EyeTV', function () {
 			};
 
 			newItemImage = ITV.addImage(someData, 2);
-			// expect(newItemImage);
+			expect(newItemImage.tagName).to.be.equal('IMG');
 		});
 	});
 
