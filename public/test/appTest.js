@@ -67,7 +67,7 @@ describe('EyeTV', function () {
 			};
 
 			ITV.ajaxITVFeed(evt);
-			console.log('requests: ', requests);
+
 			expect(requests[0].requestHeaders.Accept).to.be.equal('application/vnd.itv.default.category.v1+hal+json; charset=UTF-8');
 			expect(requests[0].url).to.be.equal('http://fetd.prod.cps.awseuwest1.itvcloud.zone/platform/itvonline/samsung/categories?broadcaster=ITV');
 			xhr.restore();
@@ -216,7 +216,7 @@ describe('EyeTV', function () {
 	});
 
 	describe('renderMostPop', function () {
-		var e, listNewItemsStub, xhr, requests;
+		var e, xhr, requests;
 
 		it('can ajax Most Pop', function () {
 
@@ -224,7 +224,6 @@ describe('EyeTV', function () {
 			requests = [];
 
 			xhr.onCreate = function (req) {
-				console.log('req: ', req);
 				requests.push(req);
 			};
 
@@ -239,15 +238,10 @@ describe('EyeTV', function () {
 					}
 				}
 			};
-
-			listNewItemsStub = sinon.stub(ITV, 'listNewItems');
-
 			ITV.renderMostPop(e);
-
-			expect(listNewItemsStub).to.have.been.calledOnce;
+			expect(requests[0].url).to.be.equal('http://fetd.prod.cps.awseuwest1.itvcloud.zone/platform/itvonline/samsung/productions?grouping=popular&size=15&broadcaster=ITV');
 
 			xhr.restore();
-			listNewItemsStub.restore();
 
 		});
 	});
