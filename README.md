@@ -21,3 +21,10 @@ go to: http://localhost:3000/
 ## Test
 
 To run tests go to http://localhost:3000/test.html
+
+
+##TO DO
+
+1 - sinon library doesn't seem to have been added properly and sinon.useFakeXMLHttpRequest is not functioing correctly;
+
+2- Sinon-chai was not function properly, but is now working, some failing tests as a result
