@@ -118,9 +118,12 @@
 		var trimmed = res._embedded, cardItem, newContainer;
 
 		newContainer = document.querySelector('.new-container');
-
+		if (newContainer.children.length > 1) {
+			newContainer.innerHTML = '';
+		}
 		for (var i = 0; i < trimmed.productions.length; i++) {
 			cardItem = this.generateTemplate(trimmed.productions[i], '2');
+
 			document.querySelector('.new-container').appendChild(cardItem);
 		}
 
