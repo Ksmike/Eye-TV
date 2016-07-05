@@ -101,8 +101,7 @@
 	renderMostPop: function (evt) {
 		var xhr = new XMLHttpRequest(),
 	    	responceJSON,
-	    	url = evt.target.parentElement.parentElement.dataset.url,
-	    	id = evt.target.parentElement.parentElement.dataset.index;
+	    	url = evt.target.parentElement.parentElement.dataset.url;
 		xhr.open("GET", url, true);
 		xhr.setRequestHeader("Accept", this.headers[2]);
 		xhr.send();
@@ -110,18 +109,22 @@
 		    if (xhr.readyState === xhr.DONE) {
 		        if (xhr.status === 200) {
 		            responceJSON = JSON.parse(xhr.response);
-		            this.listNewItems(responceJSON, id);
+		            this.listNewItems(responceJSON);
 		        }
 		    }
 		}.bind(this);
 	},
 	listNewItems: function (res) {
-		var trimmed = res._embedded, cardItem;
+		var trimmed = res._embedded, cardItem, newContainer;
+
+		newContainer = document.querySelector('.new-container');
 
 		for (var i = 0; i < trimmed.productions.length; i++) {
 			cardItem = this.generateTemplate(trimmed.productions[i], '2');
 			document.querySelector('.new-container').appendChild(cardItem);
 		}
+
+
 	},
 	addURL:function (data, id) {
 		var itemLink = document.createElement('div');
