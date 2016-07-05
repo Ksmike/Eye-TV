@@ -113,11 +113,19 @@ describe('EyeTV', function () {
 			expect(newTemplate.children[0].children[1].className).to.eql('item-title');
 			expect(newTemplate.children[0].children[1].innerHTML).to.eql('ITV');
 
+			expect(addImageStub).to.have.been.calledOnce;
+			expect(addTitleStub).to.have.been.calledOnce;
+
 
 		});
 	});
 
+	describe('generateButtons', function () {
 
+		it('can make a list of buttons', function () {
+
+		});
+	});
 
 
 });
