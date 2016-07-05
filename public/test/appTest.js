@@ -67,7 +67,9 @@ describe('EyeTV', function () {
 			};
 
 			ITV.ajaxITVFeed(evt);
+			console.log('requests: ', requests);
 			expect(requests[0].requestHeaders.Accept).to.be.equal('application/vnd.itv.default.category.v1+hal+json; charset=UTF-8');
+			expect(requests[0].url).to.be.equal('http://fetd.prod.cps.awseuwest1.itvcloud.zone/platform/itvonline/samsung/categories?broadcaster=ITV');
 			xhr.restore();
 			listInfoStub.restore();
 
