@@ -15,3 +15,9 @@ $ bower install
 $ npm run start
 
 ```
+Server is on port 3000,
+go to: http://localhost:3000/
+
+## Test
+
+To run tests go to http://localhost:3000/test.html

@@ -25,18 +25,18 @@ describe('EyeTV', function () {
 	});
 
 	describe('init', function () {
-		var addEventListenerStub, generateButtonsStub;
+		var eventListenersStub, generateButtonsStub;
 
 		it('initialise', function() {
-			addEventListenerStub = sinon.stub(ITV, 'addEventListener').returns(["pizza"]);
+			eventListenersStub = sinon.stub(ITV, 'eventListeners').returns(["pizza"]);
 			generateButtonsStub = sinon.stub(ITV, 'generateButtons');
 
 			ITV.init();
 
 			expect(generateButtonsStub).to.have.been.calledOnce;
-			expect(addEventListenerStub).to.have.been.calledOnce;
+			expect(eventListenersStub).to.have.been.calledOnce;
 
-			addEventListenerStub.restore();
+			eventListenersStub.restore();
 			generateButtonsStub.restore();
 		});
 	});
@@ -121,10 +121,76 @@ describe('EyeTV', function () {
 	});
 
 	describe('generateButtons', function () {
+		var buttonLists,
+			dummyPageWrapper = document.createElement('div');
+
+		dummyPageWrapper.id = 'wrapper';
+
+		beforeEach(function () {
+			document.body.appendChild(dummyPageWrapper);
+
+		});
+
+		afterEach(function () {
+			document.body.removeChild(dummyPageWrapper);
+		});
 
 		it('can make a list of buttons', function () {
 
+			ITV.generateButtons();
+			buttonLists = document.querySelector('#wrapper');
+
+			expect(buttonLists.id).to.eql('wrapper');
+			expect(buttonLists.children[0].className).to.eql('buttonList');
+			expect(buttonLists.children[0].children[1].className).to.eql('categoryButton');
+			expect(buttonLists.children[0].children[2].className).to.eql('mostButton');
+
+			expect(buttonLists.children[0].children[0].innerHTML).to.eql('Pick a Channel');
+			expect(buttonLists.children[0].children[1].innerHTML).to.eql('Pick a category');
+			expect(buttonLists.children[0].children[2].innerHTML).to.eql('Most Popular');
 		});
+	});
+
+	describe('eventListeners', function () {
+		var dummyChannelButton,
+			dummyCategoryButton,
+			dummyPopularButton;
+
+		beforeEach(function () {
+			dummyChannelButton = document.createElement('div');
+			dummyCategoryButton = document.createElement('div');
+			dummyPopularButton = document.createElement('div');
+
+			dummyChannelButton.className = 'channelButton';
+			dummyCategoryButton.className = 'categoryButton';
+			dummyPopularButton.className = 'mostButton';
+
+			document.body.appendChild(dummyChannelButton);
+			document.body.appendChild(dummyCategoryButton);
+			document.body.appendChild(dummyPopularButton);
+
+		});
+
+		afterEach(function () {
+			document.body.removeChild(dummyChannelButton);
+			document.body.removeChild(dummyCategoryButton);
+			document.body.removeChild(dummyPopularButton);
+		});
+
+
+		it('can added addEventListeners', function () {
+			ITV.eventListeners();
+
+			expect(dummyChannelButton.click).to.not.be.undefined;
+			expect(dummyCategoryButton.click).to.not.be.undefined;
+			expect(dummyPopularButton.click).to.not.be.undefined;
+		});
+
+		it('can trigger Event on click', function () {
+
+
+		});
+
 	});
 
 

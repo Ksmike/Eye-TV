@@ -16,7 +16,7 @@
 		// console.log('ajaxData: ', ajaxData);
 
 		this.generateButtons();
-		this.addEventListener();
+		this.eventListeners();
 
 
 		// for (var i = 0; i < [].length; i++) {
@@ -152,7 +152,7 @@
 		pageWrapper.appendChild(buttonContainer);
 
 	},
-	addEventListener: function () {
+	eventListeners: function () {
 		var channelButtonListner,
 			categoryButtonListener,
 			mostPopularButtonListener;
