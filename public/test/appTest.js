@@ -252,11 +252,16 @@ describe('EyeTV', function () {
 
 		res = {
 			_embedded: {
-				productions: [{}]
+				productions: [{
+					_links: {
+						image: {
+							href:'http://mercury.itv.com/samsung/production/image?q={quality}&format={image_format}&w={width}&h={height}&productionId=2%2F3697%2F0074%23001'
+						}
+					}
+				}]
 			}
 		};
 
-		// generateTemplateStub = sinon.stub(ITV, 'generateTemplate');
 
 		afterEach(function () {
 			document.body.removeChild(dummyElement);
@@ -265,10 +270,10 @@ describe('EyeTV', function () {
 
 		it('can ajax new Items', function () {
 			ITV.listNewItems(res);
+			expect(dummyElement.className).to.be.equal('new-container');
+			expect(dummyElement.children[0].className).to.be.equal('grid-item');
+			expect(dummyElement.children[0].children[0].className).to.be.equal('data-url');
 
-			// expect(generateTemplateStub).to.have.been.calledOnce;
-
-			// generateTemplateStub.restore();
 		});
 	});
 

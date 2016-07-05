@@ -74,7 +74,7 @@
 		var	gridItem = document.createElement('li'),
 			gridContainer = document.createElement('div'),
 			gridImage, gridName, gridLink;
-
+		console.log('data: ', data);
 		gridItem.classList.add('grid-item');
 		gridContainer.classList.add('grid-contain');
 
@@ -101,7 +101,8 @@
 	renderMostPop: function (evt) {
 		var xhr = new XMLHttpRequest(),
 	    	responceJSON,
-	    	url = evt.target.parentElement.parentElement.dataset.url;
+	    	url = evt.target.parentElement.parentElement.dataset.url,
+	    	id = evt.target.parentElement.parentElement.dataset.index;
 		xhr.open("GET", url, true);
 		xhr.setRequestHeader("Accept", this.headers[2]);
 		xhr.send();
@@ -109,7 +110,7 @@
 		    if (xhr.readyState === xhr.DONE) {
 		        if (xhr.status === 200) {
 		            responceJSON = JSON.parse(xhr.response);
-		            this.listNewItems(responceJSON);
+		            this.listNewItems(responceJSON, id);
 		        }
 		    }
 		}.bind(this);
@@ -118,7 +119,7 @@
 		var trimmed = res._embedded, cardItem;
 
 		for (var i = 0; i < trimmed.productions.length; i++) {
-			cardItem = this.generateTemplate(trimmed.productions[i], 2);
+			cardItem = this.generateTemplate(trimmed.productions[i], '2');
 			document.querySelector('.new-container').appendChild(cardItem);
 		}
 	},
@@ -127,6 +128,7 @@
 		itemLink.classList.add('data-url');
 		if (id === '0' || id === '1') {
 			itemLink.dataset.url = data._links.productions.href;
+			itemLink.dataset.index = '2';
 		} else {
 			return itemLink;
 		}

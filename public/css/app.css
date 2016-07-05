@@ -69,7 +69,14 @@ a {
 }
 
 .most-container {
-	display: inline-flex;
+	display: -webkit-box;
+	overflow-x: scroll;
+
+}
+
+.new-container {
+	display: -webkit-box;
+	overflow-x: scroll;
 }
 
 .grid-contain {
